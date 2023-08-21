@@ -1,0 +1,61 @@
+% todo commands
+%\newcommand{\todomark}{{\footnotesize\textbf{TODO} }}
+\newcommand{\todomark}{\textbf{!} }
+\newcommand{\todowarning}[2][]
+    {\todo[color=yellow,bordercolor=white, #1]
+     {\todomark #2}}
+\newcommand{\todocritical}[2][]
+    {\todo[color=red, bordercolor=white, textcolor=black,#1]
+     {\todomark #2}}
+\newcommand{\todogreen}[2][]
+    {\todo[color=green,bordercolor=white, #1]
+     {\todomark #2}}
+\newcommand{\todoblue}[2][]
+    {\todo[color=myBlue,bordercolor=white, textcolor=white, #1]
+     {\todomark #2}}
+\newcommand{\todocyan}[2][]
+    {\todo[color=myCyan,bordercolor=white, #1]
+     {\todomark #2}}
+
+
+\makeatletter
+\if@todonotes@disabled
+    \newcommand{\todohl}[3][]{#2}
+\else
+    \newcommand{\todohl}[3][]{\hl{#2}\todo[color=yellow, backgroundcolor=white,bordercolor=yellow,#1]{\todomark #3}}
+\fi
+\makeatother
+
+% margin boxes
+\newcommand{\marginbox}[2][]
+    {\todo[nolist, color=black, bordercolor=black, backgroundcolor=white, #1]{#2}}
+\newcommand{\marginboxRed}[2][]
+    {\todo[nolist,color=red!70, bordercolor=white, #1]{#2}}
+\newcommand{\marginboxYellow}[2][]
+    {\todo[nolist,color=myYellow,bordercolor=white, #1]{#2}}
+\newcommand{\marginboxCyan}[2][]
+    {\todo[nolist,color=myCyan,bordercolor=white, #1]{#2}}
+\newcommand{\marginboxhl}[3][]{\hl{#2}\todo[nolist,color=yellow, backgroundcolor=white,bordercolor=yellow,#1]{#3}}
+
+\newcommand{\marginbold}[1]{\marginnote{\textbf{#1}}}
+
+\newcommand{\margintt}[1]{\marginnote{\texttt{#1}}}
+
+\newcommand{\marginsf}
+[1]{\marginnote{\sffamily#1}}
+
+
+\newenvironment{enbox}[2][]{
+\begin{tcolorbox}[breakable, enhanced, #1]
+\textbf{#2}
+}{
+\end{tcolorbox}
+}
+
+
+
+
+\newcommand{\lecture}
+[2][none]{
+\marginnote{\textit{Lecture #2}}
+}

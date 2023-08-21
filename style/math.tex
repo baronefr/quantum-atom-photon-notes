@@ -1,0 +1,15 @@
+\usepackage{bigints}
+\usepackage{makecell}
+\usepackage[bb=boondox]{mathalfa}
+\usepackage{dsfont}
+\usepackage[makeroom]{cancel}
+\usepackage{amsmath}
+\usepackage{witharrows} % look this ans: https://tex.stackexchange.com/questions/12621/multi-line-equations-with-explanations-on-some-lines
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\renewcommand{\appendixname}{}%
+\newcommand{\parallelslant}{\mathbin{\!/\mkern-5mu/\!}}
+\headsep = 30pt
+
+\newcommand{\equalexpl}[1]{%
+  \underset{\substack{\uparrow\\\mathrlap{\text{\hspace{-1em}#1}}}}{=}}

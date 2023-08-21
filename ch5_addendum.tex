@@ -1,0 +1,246 @@
+\section{Lifting energy-level degeneracy}
+
+The Hamiltonian for the outer electron of an Hydrogen-like atom can be written as
+\begin{align*}
+    H = \frac{p^2}{2m} + V_\text{eff}, 
+\end{align*}
+where:
+\begin{align*}
+        V_\text{eff} = - \frac{e^2}{4 \pi \varepsilon_0 r} \qquad &\text{for the Hydrogen atoms;} \\
+        V_\text{eff} = - \frac{Z_\text{eff} e^2}{4 \pi \varepsilon_0 }\left( \frac{1}{r} - \mathcal{C}(r)\right) 
+    \qquad &\text{with $Z_\text{eff} = 1$ for the neutral alkali atoms} \\
+    &\text{or $Z_\text{eff} = 2$ for single-charged alkali-earth ions.}
+\end{align*}
+The term $\mathcal{C}(r)$ is a corrective term which is relevant for lower $l$. 
+The energy levels are 
+\begin{align*}
+    E_{n,l} &= - \frac{m_e e^4 Z_\text{eff}^2}{2 (4 \pi \varepsilon_0)^2 \hbar^2} \left( \frac{1}{n^2} + \tilde{\mathcal{C}}_{n,l}(r)\right) = \\
+    & = -\frac{m_e c^2}{2} Z_\text{eff}^2 \underbrace{\left( \frac{e^2}{4 \pi \varepsilon_0 \hbar c}\right)^2}_{\alpha^2} \left( \frac{1}{n^2} +  \tilde{\mathcal{C}}_{n,l}(r) \right),
+\end{align*}
+where $Z_\text{eff}$ is the residual charge at the outer shell and $\alpha$ is the fine structure constant. From the last expression, one can notice that the degeneracy in $n$ and $l$ is resolved. Nevertheless in many applications it is useful to have complete resolved energy levels and to obtain this situation the quantum numbers $m$ and $s_z$ are taken into account. In particular, the effects studied to remove this degeneracy are two:
+\begin{itemize}
+    \item \textit{Spin-orbit coupling}: it is an effect already present in the studied atoms and it derives from the fine structure; 
+    \item \textit{Zeeman effect}: it derives from the application of an external magnetic field. 
+\end{itemize}
+
+
+\subsection{Spin-orbit coupling}
+
+%\begin{center}
+%\input{img/oscillator_electron.tex}
+%\end{center}
+
+Consider the an Hydrogen-like atom in a laboratory frame in absence of magnetic fields and imagine that the outer electron moves with velocity $\vec{v}$. If the problem is studied from the frame in which the electron is at rest, the latter experiences an effective magnetic field
+\begin{align}
+    \vec{B}_{el} = -\frac{1}{c^2} \vec{v} \times \vec{E}, 
+    \label{eq:B}
+\end{align}
+where $\vec{E}$ is the core electric field measured in the laboratory frame. Since $\vec{E}$ is radial, one can write 
+\begin{align*}
+    \vec{E} = \frac{\vec{\nabla}V}{e} = \frac{\vec{r}}{e {r}} \frac{\partial V_\text{eff}}{\partial r} , 
+\end{align*}
+while $\vec{v} = \vec{p}/m_e$ (in non-relativistic approximation). Therefore, equation (\ref{eq:B}) becomes
+\begin{align}
+    \vec{B}_{el} = -\frac{1}{c^2} \left( \frac{\vec{p}}{m_e} \times \vec{r} \right) \frac{1}{e {r}} \frac{\partial V_\text{eff} }{\partial r} = \frac{1}{e m_e c^2 r} \frac{\partial V_\text{eff}}{\partial r}  \vec{L}, 
+\end{align}
+where $\vec{L}$ is the angular momentum in the laboratory frame. \\
+
+This magnetic field can couple with the magnetic dipole moment associated to the electron spin, given by 
+\begin{align*}
+    \vec{\mu}_s = -\frac{e}{2 m_e} g_s \vec{S} = -\mu_B g_s \vec{S},  
+\end{align*}
+where $g_s$ is the electron $g$-factor ($g_s = 2$ from Dirac free theory) and $\mu_B = e\hbar/(2 m_e)$ is the Bohr magneton. In particular, the additional term to the Hamiltonian of the electron evaluated in the electron reference frame is 
+\begin{align}
+    H_\text{spin-orbit}^{el} \equiv H_{SO}^{el} = - \vec{\mu}_s \cdot \vec{B}_{el} = \frac{\mu_B g_s}{e m c^2 \hbar} \left( \frac{1}{r} \frac{\partial V_\text{eff}}{\partial r} \right)\vec{S} \cdot \vec{L}. 
+\end{align}
+The following step consists of returning to the laboratory frame. The explicit calculation leads to the following terms 
+\begin{align}
+    H_\text{spin-orbit}^{lab} \equiv H_{SO}^{lab} = \frac{\mu_B (g_S-1)}{e m c^2 \hbar} \left( \frac{1}{r} \frac{\partial V_\text{eff}}{\partial r} \right)\vec{S} \cdot \vec{L}. 
+\end{align}
+Using the general expression for $V_\text{eff}$ presented above, the spin-orbit Hamiltonian is 
+\begin{align}
+    H_{SO}^{lab} = \frac{\mu_B (g_S-1)Z_\text{eff} e}{4 \pi \varepsilon_0 m c^2 \hbar} \left( \frac{1}{r^3} - \frac{\partial \mathcal{C}}{\partial r} \right) \vec{S} \cdot \vec{L}, 
+\end{align}
+or more in general (omitting the reference to the laboratory frame)
+$$H_{SO} = \Bigl( \textrm{some function of } r\Bigr) \; \vec{L}\cdot\vec{S}.$$
+The basis formed by elements like $\ket{l,m,s,s_z}$ does not diagonalize this Hamiltonian. In order to do this, one has to introduce the \textit{total angular momentum}
+\begin{align}
+    \vec{J} = \vec{L} + \vec{S} 
+\end{align}
+and the new useful basis becomes $\ket{l,s,j,j_z}$ (indeed $L^2$, $S^2$, $J^2$ and $J_z$ commute). Hence from 
+\begin{align*}
+    \begin{pmatrix}
+    L^2 \\ L_z \\ S^2 \\ S_z 
+    \end{pmatrix}
+    \ket{l,m,s,s_z} = 
+    \begin{pmatrix}
+    \hbar^2 l(l+1) \\ \hbar m \\ \hbar^2 s(s+1) \\ \hbar s_z 
+    \end{pmatrix}
+    \ket{l,m,s,s_z} 
+\end{align*}
+one passes to 
+\begin{align*}
+    \begin{pmatrix}
+    L^2 \\ S^2 \\ J^2 \\ J_z 
+    \end{pmatrix}
+    \ket{l,s,j,j_z} = 
+    \begin{pmatrix}
+    \hbar^2 l(l+1) \\ \hbar^2 s(s+1) \\  \hbar^2 j(j+1) \\ \ \hbar j_z 
+    \end{pmatrix}
+    \ket{l,s,j,j_z}
+\end{align*}
+with 
+\begin{align*}
+    j = l +\dfrac{1}{2}, l - \dfrac{1}{2} \qquad \text{and} \qquad j_z = -j, ..., j.
+\end{align*}
+In principle, one should evaluate the Clebsch-Gordan coefficient to move from one basis to another, but in this case a simpler approach is used. \\
+The term $\vec{L} \cdot \vec{S}$ in $H_{SO}$ can be rewritten by noticing that
+\begin{align*}
+{J}^2 & = (\vec{L} + \vec{S})^2 = {S}^2 + {L}^2 + \vec{S}\cdot\vec{L} + \vec{L}\cdot\vec{S} = {S}^2 + {L}^2 + 2\vec{L}\cdot\vec{S},
+\end{align*}
+where the last equation is obtained from the fact that $\vec{L}$ and $\vec{S}$ commute because the operators act on different spaces. From this
+\begin{equation*}
+\vec{L}\cdot\vec{S} = \frac{1}{2}\left( {J}^2 - {L}^2 - {S}^2\right)
+\end{equation*}
+and hence 
+\begin{align}
+    H_{SO} \simeq \Bigl( \textrm{some function of } r\Bigr) \left( {J}^2 - {L}^2 - {S}^2\right), 
+\end{align}
+which is clearly diagonalized by $\ket{n,l,s,j,j_z}$. 
+
+Once the new basis is found, the first-order degeneracy removing Hamiltonian is given by (\ref{eq:H1})
+\begin{align*}
+    H^{(1)} = \Pi_{n,l,s=1/2}\, H_{SO}  \, \Pi_{n,l,s=1/2} 
+\end{align*}
+while the associated energy shift is 
+\begin{align*}
+\Delta E_{{SO}}^{(1)} & = \bra{n,l,j,j_z} H_{SO} \ket{n,l,j,j_z} = \\
+& \propto   \underbrace{ \bra{n,l}{\left( \frac{1}{r}\frac{\partial V_{\text{eff}}}{\partial r} \right)}\ket{n,l} }_{\text{just an integral $>$ 0}}  \left( j(j+1) - l(l+1) - \underbrace{s(s+1)}_{3/4} \right)
+\end{align*}
+This expression shows that some degeneracies are removed, as levels with same $l$ are now split by means of $j = l \pm \frac{1}{2}$. 
+\begin{center}
+\input{img/split_l_spin.tex}
+\end{center}
+
+A final note is about the fact that in this procedure the relativistic effects are neglected. Nevertheless, they do not determine, at this level, a splitting but a shift of all energy levels of the order of $2\pi/\alpha^2$. 
+
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{Note about notation}\\ 
+A state with quantum numbers $n, l, s, j$ is labelled as $$n^{2s+1}l_j$$
+where $l$ is replaced with a capital letter according to its value. The first four values are associated to: 
+\begin{align*}
+l=0 \rightarrow S \qquad & l=1 \rightarrow P\\
+l=2 \rightarrow D \qquad & l=3 \rightarrow F 
+\end{align*}
+For instance, $4^2S_{1/2}  \Longleftrightarrow \ket{n=4,l=0,s=1/2,j=1/2}$.
+\end{tcolorbox}
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{Fine structure of Sodium} ($Z=11$) \\
+A partial lifting of the degeneracy in Sodium spectrum is reported below. The energy levels $3^2 P_{1/2}$ and $3^2 P_{3/2}$ are two-time and four-time degenerate, hence the degeneracy is only partially removed. 
+\begin{center}
+\input{img/sodium_3_transitions.tex}
+\end{center}
+\end{tcolorbox}
+
+From the Sodium example it is evident that, to have a complete resolution of the energy levels, something different must be introduced. 
+
+\subsection{Zeeman effect}
+
+Consider the system described in the previous section with an external classical magnetic field $\vec{B}$. The interaction is described by the Hamiltonian
+\begin{equation*}
+H_B = -\vec{\mu}_s\cdot \vec{B} -\vec{\mu}_l\cdot \vec{B} = \frac{\mu_B}{\hbar} \left( g_s \vec{S} + g_l \vec{L}\right) \cdot \vec{B}
+\label{eq:HB}
+\end{equation*}
+where
+\begin{equation*}
+g_s \simeq 2.0023 \qquad \text{and} \qquad g_l \simeq \frac{m_{\textrm{reduced}}}{m_{e^-}} = \frac{1}{1 + m_e/m_\text{reduced}}\lesssim 1
+\end{equation*}
+are the electron spin $g$-factor and the orbital $g$-factor respectively. 
+In (\ref{eq:HB}), $\vec{\mu}_s$ is the spin magnetic dipole moment while $\vec{\mu}_l$ is the orbital magnetic dipole moment. 
+
+To simplify even more, one can orient $\vec B$ along the $\vec{z}$ axis and hence 
+\begin{equation*}
+H_B = \frac{\mu_B}{\hbar} \left( 2S_z + L_z \right) B_z
+\end{equation*} 
+
+
+\subsubsection{Case 1: Strong $\vec B$ regime}
+
+By ``strong $B$ regime" one refers to a situation in which the energies associated to the magnetic field are much bigger than those of spin-orbit, namely $\Delta E_B \gg \Delta E_{SO}$.
+
+In this case, $n,l,m$ and $s_z$ are good quantum numbers and the computation of the energy shift is straightforward:
+\begin{align*}
+\Delta E_{n,l,m,s_z} &= \bra{n,l,m,s_z} H_B \ket{n,l,m,s_z} =\\
+& = \frac{\mu_B B}{\hbar} \bra{n,l,m,s_z}  2S_z + L_z \ket{n,l,m,s_z} = \mu_B (2s_z + m)B
+\end{align*}
+In this regime, the splitting is called \textit{Paschen-Back effect}.
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{Paschen-Back effect for a $P$ level}
+\begin{center}
+\input{img/paschen-back-P.tex}
+\end{center}
+
+The degeneracy of $\ket{m,s_z} = \ket{1, -1/2}, \ket{-1, 1/2}$ is eventually removed by relativistic effects.
+\end{tcolorbox}
+
+\subsubsection{Case 2: Weak $\vec B$ regime}
+
+On the other hand, one might consider the range of energies in which $\Delta E_B \lesssim \Delta E_{SO}$; in this case, the quantum numbers $n,l,j$ and $j_z$ are used:
+\begin{align*}
+\Delta E_{n,l,j,j_z} & = \bra{n,l,j,j_z} H_B \ket{n,l,j,j_z} =\\
+& = \frac{\mu_B B}{\hbar} \bra{n,l,j,j_z} g_sS_z + g_lL_z \ket{n,l,j,j_z} = \\
+& = \frac{\mu_B B}{\hbar} \bra{n,l,j,j_z}  (g_s-g_l)S_z + g_lJ_z \ket{n,l,j,j_z} = \\
+&= \frac{\mu_B B}{\hbar} \bigg[ (g_s-g_l)\bra{n,l,j,j_z}S_z\ket{n,l,j,j_z} + g_l\hbar j_z \bigg]
+\end{align*}
+From the last line, one notices that there is not a straightforward way to evaluate $\bra{n,l,j,j_z}S_z\ket{n,l,j,j_z}$ no eigenvector for $S_z$ are present. To compute this term one can use the \textit{projection theorem} according to which the expectation value of a quantity $\vec{A}$ that transforms as a vector can be written as
+\begin{equation*}
+\langle \vec A \rangle = \Bigl\langle \left(J^2\right)^{-1} \left( \vec{J}\cdot \vec{A}\right) \vec{J} \Bigr\rangle
+\end{equation*}
+Therefore
+\begin{equation*}
+\begin{aligned}
+\bra{n,l,j,j_z}S_z\ket{n,l,j,j_z} & =
+\bra{n,l,j,j_z}  
+\left({J}^2\right)^{-1}
+\left( {\vec{J}\cdot\vec{S}} \right)
+{J_z}
+\ket{n,l,j,j_z} =  \\
+& = \frac{j_z}{\hbar j(j+1)} \bra{n,l,j,j_z} \left( {\vec{J}\cdot\vec{S}} \right) \ket{n,l,j,j_z} = \\
+& = \frac{j_z}{2 \hbar j(j+1)} \bra{n,l,j,j_z} \left( {J}^2 + {S}^2 - {L}^2\right) \ket{n,l,j,j_z} = \\
+& =  \frac{j(j+1)+s(s+1)-l(l+1)}{j(j+1)} \hbar j_z
+\end{aligned}
+\end{equation*}
+Eventually, the energy gap can be written as 
+\begin{equation}
+\Delta E_{n,l,j,j_z} = \mu_B j_z B_z g_j(j,l)
+\label{eq:degrem}
+\end{equation}
+where 
+$$g_j(j,l) = g_l + (g_s-g_l) \frac{j(j+1)-l(l+1) + 3/4}{j(j+1)}$$
+since $s=1/2$. 
+In this case, one completely resolves the degeneracy; this result is called \textit{anomalous Zeeman effect}. 
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{Degeneracy removal for Sodium} \\
+Consider the following degenerate energy levels for Sodium: 
+\begin{align*}
+    S_{1/2} \qquad &\longrightarrow \qquad g_j = 2 \\
+    P_{1/2} \qquad &\longrightarrow \qquad g_j = 2/3 \\
+    P_{3/2} \qquad &\longrightarrow \qquad g_j = 4/3
+\end{align*}
+These values of $g_j$ removed  the degeneracy according to equation (\ref{eq:degrem}). 
+\begin{center}
+\input{img/ex-weakB-jump.tex}
+\end{center}
+\end{tcolorbox}
+
+\subsubsection{Selection rules}
+
+A final comment is about the selection rules that must be changed. The Wigner-Eckart theorem allows to find the new selection rules: 
+\begin{align}
+     \Delta j &= 0, \pm 1 \quad \text{except when}\quad j=j'=0 \qquad \text{and} \qquad \Delta j_z &= 0, \pm 1 
+\end{align}
+

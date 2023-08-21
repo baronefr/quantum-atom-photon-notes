@@ -1,0 +1,346 @@
+% =============================================================
+%   LaTeX memoir template    ----------------------------------
+%   ver 1.0 //  major review 1.0  //  January 2023, 10th
+%
+%   by Francesco Barone, github.com/baronefr
+%   limited access CC licence (temporarily)
+% -------------------------------------------------------------
+%  some geometry components have been adapted from
+%       [feth-zurich-cadmo-thesis-template-v2]
+% -------------------------------------------------------------
+
+
+% ============================
+%   REQUIREMENTS
+% ============================
+
+% this packages have been moved to main.tex
+
+% \usepackage[english]{babel}
+% \usepackage[OT1]{fontenc}
+% \usepackage[utf8]{inputenc}
+
+% \usepackage{geometry}   
+%     ref: https://texdoc.org/serve/geometry.pdf/0
+%
+%   [ info ] recommended geometry -----
+%      top=3cm, bottom=3cm,
+%      twoside, inner=2.5cm,
+%      textwidth=13cm,
+%      marginparsep=.7cm, marginparwidth=3.5cm
+%
+% further optional customizations might include
+% \linespread{1.5}
+
+
+\usepackage{fancyhdr}
+\usepackage{authblk}
+
+%\usepackage[sc]{mathpazo}  % to use palatino (if you like it)
+\usepackage{amsmath,amssymb,amsfonts,mathrsfs}
+\usepackage{mathalpha}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[makeroom]{cancel}
+
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+%\usepackage{marginnote}
+\usepackage[colorinlistoftodos, tickmarkheight=0.2cm, bordercolor=white, figcolor=white]{todonotes}
+% ref: http://tug.ctan.org/macros/latex/contrib/todonotes/todonotes.pdf
+\usepackage{marginnote}
+%\newcommand{\marginnote}{\marginpar}
+\usepackage{soul}
+
+\usepackage{tikz}
+\usepackage[caption=false]{subfig}
+\usepackage{wrapfig}
+\usepackage[margin=25pt, font=small, labelfont=bf, labelsep=quad]{caption}
+
+\usepackage[absolute]{textpos}
+\usepackage{emptypage}
+\usepackage{rotating}
+
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{floatflt}
+\usepackage{float}
+\usepackage{booktabs}
+
+\usepackage[]{hyperref}
+
+
+
+% ============================
+%   DEFINITIONS
+% ============================
+
+
+%  COLORS -----------------------------------
+
+% institutional colors
+\definecolor{unipdRedPantano}{RGB}{155,0,20}
+\definecolor{unipdRedPantanoDarker}{RGB}{125,0,20}
+\definecolor{cernBlue}{RGB}{0,51,160}
+
+% routine colors
+\definecolor{myGreen}{RGB}{19, 171, 2}
+\definecolor{myBlue}{RGB}{0,51,160}
+\definecolor{myCyan}{rgb}{0.2, 0.6, 1}
+\definecolor{myYellow}{RGB}{255, 187, 0}
+\definecolor{myPurple}{RGB}{255, 0, 153}
+\definecolor{myLightGrey}{RGB}{52,55,60}
+
+
+
+
+
+
+% ============================
+%   LAYOUT
+% ============================
+
+% set link colors
+\hypersetup{
+    colorlinks=true,
+    urlcolor=unipdRedPantano,
+    linkcolor=unipdRedPantanoDarker
+}
+
+% misc
+\setlength{\beforechapskip}{0pt}
+\renewcommand\Authands{ and }
+\makeatletter
+\let\authorlist\@author
+\makeatother
+
+\newcommand{\printauthorlist}{{%
+  \expandafter\let\csname textsuperscript \endcsname\@gobble% Remove \textsuperscript 
+  \AB@authlist}% Print list
+}
+
+% fixes ----------------------
+\makeatletter
+\if@twoside%
+   %%% put the stuff for true here (twoside=true)
+   %\newcommand\side{stuff for twoside}
+\else%
+   %\geometry{includemp}
+\fi%  
+\makeatother
+
+
+%  CHAPTER STYLE -------------
+\makeatletter
+\makechapterstyle{mymadsen}{%
+    \chapterstyle{madsen}
+    \renewcommand*{\chapnumfont}{\chapnamefont}%
+    \renewcommand*{\chaptitlefont}{\normalfont\HUGE\bfseries}%
+}
+\chapterstyle{mymadsen}
+
+% if you wish to use a std chapter style, use these
+%\chapterstyle{mych}
+%\chapterstyle{madsen}
+%\chapterstyle{veelo}
+%\chapterstyle{companion}
+%\chapterstyle{ell}
+
+
+\setsecheadstyle{\Large\bfseries\sffamily}
+\setsubsecheadstyle{\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\bfseries\sffamily}
+\setparaheadstyle{\normalsize\bfseries\sffamily}
+\setsubparaheadstyle{\normalsize\itshape\sffamily}
+\setsubparaindent{0pt} % disable indent
+
+
+%  HEAD/FOOT STYLE -----------
+% fix margins of header
+\newlength{\extendmargin}
+\setlength{\extendmargin}{\marginparwidth + \marginparsep}
+
+\newcommand{\setlayout}{
+
+\pagestyle{fancy}
+\fancyheadoffset[leh,roh]{\extendmargin}
+\fancyfootoffset[leh,roh]{\extendmargin}
+\renewcommand{\headrulewidth}{1pt}
+
+
+\fancyhead{}
+\fancyhead[RO]{\rightmark}
+\if@twoside%
+   \fancyhead[LE]{\textsc{\leftmark}}
+\fi%  
+
+
+\fancyfoot{}
+%  (optional) make page number at outer margin
+%\fancyfoot[LE,RO]{\thepage}  
+%  otherwise: center
+\fancyfoot[C]{\thepage}
+\fancyfoot[L]{}
+\fancyfoot[R]{}
+}
+\setlayout
+
+% fix first page of each chapter to have same pagestyle without upper rule
+\fancypagestyle{plain}{
+    % use same style in chapter first page
+    \pagestyle{fancy}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+
+
+
+
+
+% ============================
+%   SPECIAL PAGES
+% ============================
+
+\def\docuver{none}
+
+\def\prependtitle{}
+\def\appendtitle{}
+\def\coverfoot{}
+\def\coverlogo{}
+
+\def\copyrightmention{}
+\def\copyrightnotes{}
+
+%  COVER PAGE ----------------
+
+
+% Q:  should this be wrapped by
+%     \begin{titlingpage}  ?
+\makeatletter
+\newcommand*{\firstpage}{%
+\begingroup
+\renewcommand{\thanks}[1]{} % remove thanks in first page
+\parbox[b][0.95\textheight][t]{2cm}{
+\raggedleft
+\begin{turn}{90}
+\begin{tikzpicture}[opacity=1]
+    \node{\includegraphics[height=2cm]{\coverlogo}};
+\end{tikzpicture}
+\end{turn}
+}
+\hspace*{2ex}
+\textcolor{coverline}{\rule{2pt}{0.95\textheight}}
+\hspace*{5ex}
+\parbox[b][0.95\textheight][t]{0.8\textwidth}{
+    {\raggedright
+        {\prependtitle\par}
+        {\HUGE\sffamily\bfseries\@title\par}
+        {\appendtitle\par}
+        \vspace{2cm}
+        {\Large\bfseries\@date\par}
+    }
+    \vfill
+    {\large\bfseries\@author}\\
+    
+    \vspace{1cm}
+    \coverfoot
+    \vspace{1cm}
+}
+\thispagestyle{empty}
+%\if@openright\cleardoublepage\else\clearpage\fi
+\endgroup}
+\makeatother
+
+\renewcommand{\thanks}[1]{\footnote{\href{mailto:#1}{#1}}}
+
+%  SECOND PAGE ---------------
+\def\secondpage{\clearpage\null\vfill
+%\let\thanks\footnote % list authors mail here
+\pagestyle{empty}
+\begin{minipage}[b]{0.9\textwidth}
+\footnotesize\raggedright
+\setlength{\parskip}{0.5\baselineskip}
+\hrule
+\vspace{.7cm}
+Document written in \LaTeX.\par
+
+\begin{minipage}{0.9\textwidth}
+    \let\footnoterule\relax % omit footnote rule here (for thanks command)
+    \textbf{\LaTeX\space template Copyright} \copyright 2022--\the\year\ Francesco Pio Barone (\href{https://github.com/baronefr}{GitHub@baronefr}). This attribution shall not be removed even if the template is used in other documents.\par
+    \copyrightmention
+\end{minipage}
+
+\vspace{.7cm}
+\copyrightnotes
+\vspace{.7cm}
+
+Document compiled on \today. \textbf{Version signature \docuver}.
+\vspace{.7cm}
+
+\hrule
+
+\begin{center}
+\includegraphics[height=.8cm]{style/cc.png}\hspace{1cm}
+\includegraphics[height=.8cm]{style/ccmark.png}
+\end{center}
+
+This document is released under 
+\textbf{Attribution-NonCommercial-ShareAlike 4.0 International} (\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}) licence.
+
+You are free to
+\begin{itemize}
+    \item Share — copy and redistribute the material in any medium or format
+    \item Adapt — remix, transform, and build upon the material 
+\end{itemize}
+
+under the following terms:
+\begin{itemize}
+    \item Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+    \item NonCommercial — You may not use the material for commercial purposes.
+
+    \item ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+    \item No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+\end{itemize}
+\end{minipage}
+\vspace*{2\baselineskip}
+\cleardoublepage
+\rfoot{\thepage}}
+
+% if you want to use second page with std \maketitle
+\makeatletter
+%\g@addto@macro{\maketitle}{\firstpage}
+\g@addto@macro{\maketitle}{\secondpage}
+\makeatother
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ============================
+%   COMPONENTS
+% ============================
+\def\coverlogo{}
+\def\copyrightnotes{}
+\def\copyrightmention{}
+\def\docuver{no-ver}
+\def\prependtitle{}
+\def\appendtitle{}
+\def\coverfoot{}
+
+\input{style/annotations}
+\input{style/math}
+
+
+%\pagestyle{fancy}

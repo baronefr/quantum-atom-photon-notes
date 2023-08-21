@@ -1,0 +1,21 @@
+\section{Tensor product and trace operator} 
+
+A useful relation for the product of two tensor products is
+\begin{align}
+    (A \otimes B) (C \otimes D) = AC \otimes BD,
+\end{align}
+while the trace of a tensor product can be rewritten as
+\begin{align}
+    \text{Tr}[A\otimes B] = \text{Tr}[A] \, \text{Tr}[B].
+\end{align}
+These relations allow to write
+\begin{align}
+    \text{Tr}[[A\otimes B, C\otimes D]] &= \text{Tr}[(A\otimes B)(C \otimes D)] - \text{Tr}[(C\otimes D)(A \otimes B)] = \nonumber \\
+    &= \text{Tr}[AC \otimes BD] - \text{Tr}[CA \otimes DB] = \nonumber \\
+    &= \text{Tr}[AC] \, \text{Tr}[BD] - \text{Tr}[CA] \, \text{Tr}[DB]. 
+\end{align}
+In a similar way, one can prove that 
+\begin{align}
+    \text{Tr}[(A\otimes B)(C\otimes D)(E \otimes F)] &= \text{Tr}[(AC \otimes BD)(E \otimes F)] - \text{Tr}[ACE \otimes BDF)] = \nonumber \\
+    &= \text{Tr}[ACE] \, \text{Tr}[BDF]
+\end{align}

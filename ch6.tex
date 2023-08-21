@@ -1,0 +1,878 @@
+% -----------------------------------------------------------
+%
+%  CHAPTER 6  of Quantum information with atoms and photons
+%
+%  written by Francesco Barone, Jan 2023
+%  contributions from Giosuè Sardo Infirri
+% -----------------------------------------------------------
+
+
+Different strategies are used to correlate energy levels of a system made of more than one atom.\\
+
+\noindent \textbf{\sffamily Rydberg strategy}\\
+
+The Rydberg atoms technology is based on the fact that there are infinite energy levels before the ionization of an atom. A \textit{Rydberg atom} is an excited atom with one or more electrons that have a very high principal quantum number $n$.
+\\
+Some properties of the Rydberg atoms are good response to electric and magnetic fields, long decay periods and electron wavefunctions that approximate, under some conditions, classical orbits of electrons around the nucleus.
+\\
+Since the radius of the orbit scales as $n^{2}$ and the geometric cross-section as $n^{4}$, these atoms that are extremely large, with loosely bounded valence electrons, are easily perturbed or ionized by collisions and external fields. In particular, we are able to ionize atoms up to the levels $50\,S-100\,S$, where they have a radius of the order of 1 $\mu$m ($10^{4}$ times larger than that of an atom in ground state). 
+\\
+Such properties permit to interact and manipulate these atoms efficiently. \\
+
+\noindent\textbf{\sffamily Ion traps}\\
+
+Another strategy consists of trapping many similar ions in an harmonic potential, like a sort of lattice\footnote{We (students) suggest to look at this documentation (\href{https://pennylane.ai/qml/demos/tutorial_trapped_ions.html}{Pennylane: Trapped ion quantum computers}) for a very general overview of trapped ion quantum computers.}. The Coulomb interaction between the centre of mass of the ions is relevant and two types of degrees of freedom are present: 
+\begin{itemize}
+    \setlength\itemsep{1em}
+    \item external degrees of freedom, which correspond to the center of mass position; 
+    \item internal degrees of freedom, which correspond to the electronic levels. 
+\end{itemize}
+It is important to notice that the interaction between the external degrees of freedom of different atoms is always established, while the one between the internal and the external ones is more complicated and it is discussed in the following section. 
+
+\section{Lamb-Dicke coupling for a trapped ion}
+Consider a system made of: 
+\begin{itemize}
+    \item an hydrogen-like atom;
+    \item an harmonic trap for the centre-of-mass coordinate; 
+    \item a laser with a frequency close to one associated to an optical transition.
+\end{itemize}
+
+\begin{center}
+\input{img/lamb-dicke-sketch.tex}
+\end{center}
+
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{Example: Ca$^+$ ion} \\
+A $Ca^+$ ion resembles very much an hydrogen-like atom, with $Z_{\text{eff}}=2$
+\begin{center}
+\input{img/Ca-dicke-example.tex}
+\end{center}
+In the figure, we sketch the energy levels which are typically of interest in practical applications. 
+\end{tcolorbox}
+
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{\textit{Paul trap} (or \textit{quadrupole ion trap})} \\
+A different configuration with respect to the harmonic trap is possible. In particular, consider a system in which the atom is in the middle of four metal rods orthogonal to the $xy$ plan, as shown in the figure. Two rods have a positive charge and two have a negative charge, so that the potential in the position of the atom has always a saddle point. The charges on the rods oscillate (swapping signs) very rapidly: the atom doesn't have the time to start drifting towards any of them; along the $z$ axis the atom is trapped by two positive electrodes. The uncertainty on the position of the atom is dominant on the $z$ axis.
+\begin{center}
+\scalebox{1.3}{
+    \input{img/sketch-trap-dicke.tex}
+}
+\end{center}
+\end{tcolorbox}
+
+Notice that the described system has three relevant length-scales:
+\begin{itemize}   
+    \item the typical atomic radius, which can be approximated with the Bohr radius of outer electron $\tilde{a}_0$:
+    \begin{equation*}
+    \tilde{a_0} \simeq \frac{n^2}{Z_{\text{eff}}} a_0 =
+\frac{4^2}{2}\frac{4\pi \varepsilon_0 \hbar}{m e^2} \simeq 0.42 ~\text{nm}, 
+    \end{equation*}
+    where $a_0$ is the Hydrogen Bohr radius.
+    
+    \item the wavelength of the laser light
+    $$\lambda_L = \frac{2\pi c}{\omega_L} \in \big( \underbrace{100~\text{nm}}_{UV}, \underbrace{1~\mu\text{m}}_{UV} \big)$$
+
+    \item uncertainty in the atom position $\Delta z_{CM}$, which clearly depends on the trapping potential; considering an harmonic potential along the $z$ direction, we have
+    $$V(z_{CM}) = \frac{1}{2}m_A\omega_\text{trap}^2z^2$$
+    where $m_A$ is the mass of the atom/ion (for Ca$^+$, $m_\text{Ca} \simeq 40\;m_\text{proton}$) and $\omega_T$ is the trap harmonic frequency. Typical traps have $\omega_T/2\pi \in (0.1 \sim 10)$ MHz. \\
+    To estimate $\Delta z_{CM}$, one has to start form the Hamiltonian of the harmonic oscillator
+    $$\bar{H} = \frac{\hat{P}^2}{2m_A} + \frac{1}{2}m_A\omega_T^2\hat{z}^2 =
+    \hbar\omega_T\left(\hat{a}^\dag \hat{a} +\frac{1}{2}\right),$$
+    where the ladder operators 
+    \begin{equation*}
+    \hat{z} = \sqrt{\frac{\hbar}{2m_A\omega_T}}\left(\hat{a}+\hat{a}^\dag\right)
+    \qquad \text{and} \qquad 
+    \hat{P} = \sqrt{\frac{\hbar m_A\omega_T}{2}}i\left(\hat{a}^\dag-\hat{a}\right) 
+    \end{equation*}
+    are introduced. If we assume that the center-of-mass is in the ground state of the harmonic oscillator, then
+    \begin{align*}
+        \bra{0}\hat{z}\ket{0} = 
+        \sqrt{\frac{\hbar}{2m_A\omega_T}}
+        \big( \langle \hat{a}\rangle + \langle \hat{a}^\dag\rangle \big)
+        =0
+    \end{align*}
+    and its variance is
+    \begin{align*}
+        \Delta \vec{z} & = \sqrt{\bra{0} \hat{z}^2\ket{0} - \bra{0}\hat{z}\ket{0}^2} = \\
+        & =
+        \sqrt{\frac{\hbar}{2m_A\omega_T}
+        \left(
+        \cancel{\langle \hat{a}^2\rangle}
+        + \cancel{\langle \hat{a}^\dag \hat{a} \rangle}
+        + \underbrace{\langle \hat{a} \hat{a}^\dag
+        \rangle}_{=1}
+        +\cancel{\langle {a^\dag}^2\rangle}
+        \right) =
+        }\\
+        & = \sqrt{\frac{\hbar}{2m_A\omega_T}} = 
+        \sqrt{\frac{h}{2m_A(\omega_T/2\pi)}}
+    \end{align*}
+    Inserting the parameters for Ca$^+$, we expect $\Delta \vec{z}$ to be in the range $10-100$ nm. 
+\end{itemize}
+To summarize, the involved length-scales are: 
+\begin{align*}
+\text{atom size} ~\tilde{a}_0 \qquad \quad & 1 ~\text{nm,} \\
+\text{laser wavelength} ~\lambda_L \qquad \quad  &400~\text{nm}, 850~\text{nm}\\ 
+\text{position uncertainty} ~\Delta \vec{z} \qquad \quad & 10-100~\text{nm.}
+\end{align*}
+Supported by those values, it is reasonable to consider from now on that
+\begin{align*}
+    \underbrace{\lambda_L \quad \gg \quad \Delta z }_{\eta\;\ll\;1} \quad \gg \quad  \tilde{a}_0. 
+\end{align*}
+
+\begin{center}
+\input{img/dicke-sketch.tex}
+\end{center}
+
+One can define $\eta$ as the \textit{Lamb-Dicke parameter}, which is practically the ratio between atom ground-state packet size (confinement dependent) and laser wavelength
+\begin{equation*}
+\eta = \Delta\vec{z}\cdot\vec{k} =
+\frac{2\pi\Delta z}{\lambda}\cos\theta,
+\end{equation*}
+with $\theta$ being the angle between the laser and trap (1D direction). The \textit{Lamb-Dicke regime} corresponds to the condition in which $\eta \ll 1$.
+
+%\textbf{Remark}: In Innsbruck they use $\eta = 1/20$. In general, a bigger value of $\eta$ leads to a bad approximations. $\eta \sim 0.1$ is still good. On the other hand, a smaller value of $\eta$ slows down the dynamics of our system. 
+
+Let us go back to the trapped atom system under the latest assumptions.
+The contributions to the Hamiltonian are: 
+\begin{align*}
+H^A_{rel} &= \hbar \omega_{eg} \ket{e}\bra{e} \qquad \qquad \text{atom relative coordinate,} \\
+H_{CoM}^A &= \hbar \omega_{T} \hat{a}^\dag \hat{a} + \cancel{\frac{1}{2}} \qquad  \text{atom center-of-mass coordinate,} \\
+H_{AL} &= - \hat{\vec{d}} \cdot \hat{\vec{E}}(\hat{\vec{r}}_{CoM}) \qquad \qquad \text{atom-light interaction.} 
+\end{align*}
+$H_{CoM}^A$ can be considered as the ``phonon" Hamiltonian, while in the last expression we have taken the electric field operator in the center-of-mass coordinate because of $\Delta z\gg a_0$. In particular, 
+$$\hat{\vec{d}} = \vec{d}_{eg}\ket{e}\bra{g} + \vec{d}^*_{eg}\ket{g}\bra{e} \;,$$
+\begin{equation*}
+\hat{\vec{E}}(\vec{r}_{CoM}) = \sum_{k\lambda} \sqrt{\frac{\hbar\omega_k}{2\varepsilon_0}}\vec\epsilon_{\lambda} \, 2 \mathfrak{Im}\left(u_{\vec{k},\lambda}(\hat{\vec{r}}_{CoM})\hat{a}_{\vec{k},\lambda}\right).
+\end{equation*}
+Considering a coherent light (laser) ($\vec{k}, \lambda$), the radiation is described by the Fock state
+$$\ket{\psi_L} = \ket{0} \otimes ... \otimes \ket{0} \otimes \ket{\alpha_{\vec{k},\lambda}} \otimes \ket{0} \otimes ... \otimes \ket{0}$$
+and therefore
+\begin{flalign*}
+{\bra{\psi_L} \hat{\vec{E}}\ket{\psi_L}(\hat{\vec{r}}_{CoM})} = \vec{\mathcal{E}}\cos\left(c|\vec{k}|t-\vec{k}\cdot\hat{\vec{r}}\right) =  \vec{\mathcal{E}}\cos\left(ckt-kz\cos\theta \right), 
+\end{flalign*}
+where in the last equation one uses the fact that the trap is tight in $x$ and $y$, $\Rightarrow \hat{\vec{r}} = (0\;\;0\;\;\hat{z})$ (no motion is allowed in xy).
+
+
+Introducing the usual Rabi frequency $\Omega = \dfrac{\vec{d}_{eg} \cdot \vec{\mathcal{E}}}{\hbar}$, the effective Hamiltonian of atom-light interaction is 
+\begin{equation}
+H_{AL}^{\text{eff}} = \hbar\Omega\ket{e}\bra{g}
+    \cos\left(ckt-kz\cos\theta\right)
+    + \text{h.c.}
+    \label{eq:effective-atomlight-ham}
+\end{equation}
+Collecting all these considerations, the full Hamiltonian in the laboratory frame is
+\begin{equation*}
+H^{lab} = \hbar\omega_{eg}\ket{e}\bra{e}
+\;+\;
+\hbar\omega_Ta^\dag a 
+\;+\;
+\left(
+\hbar\Omega \ket{e}\bra{g}\cos\left(ckt-kz\cos\theta\right) + \text{h.c.}
+\right)
+\end{equation*}
+
+Switching to a rotating frame with laser frequency $\omega_L = ck$, and requiring that $\Omega,\Delta \ll \omega_{eg}, \omega_L$, the Hamiltonian is
+\begin{equation*}
+H^{rot} = - \hbar \Delta
+\ket{e}\bra{e} +
+\hbar\omega_Ta^\dag a +
+\frac{\hbar\Omega}{2}e^{-i k \hat{z}\cos\theta} \ket{e}\bra{g} +
+\cancel{V(t)} + \text{h.c.}
+\end{equation*}
+where we have set $\Delta\equiv\omega_L-\omega_{eg}$ and $V(t)$ cancels out if we assume the timescale separation $\Omega, \Delta, \omega_T \ll \omega_L$. \\
+At this point, one can observe that 
+$$k\hat{z} \cos\theta = k \sqrt{\frac{\hbar}{2m_A\omega_T}}(a+a^\dag) \cos\theta =
+(\Delta z k \cos\theta)(a+a^\dag) = \eta (a^\dag + a)  \;\;.$$
+
+\noindent Being $\eta$ sufficiently small (due to Lamb-Dicke regime), the expansion up to second order is
+$$e^{-i\eta(a^\dag+a)}\simeq 1- i\eta(a^\dag +a) + O(\eta^2) \;\;,$$ from which
+\begin{align*}
+\Rightarrow H^{rot} = &
+-\hbar \Delta\ket{e}\bra{e}
++ \frac{\hbar\Omega}{2}
+\underbrace{\left( \ket{e}\bra{g}+\ket{g}\bra{e} \right)}_{\sigma^x} +
+\tag*{internal degrees of freedom only} \\
+& + \hbar\omega_Ta^\dag a +
+\tag*{phononic contribution only}\\
+& + \eta\frac{\hbar\Omega}{2}
+\underbrace{\left(-i\ket{e}\bra{g}+i\ket{g}\bra{e}\right)}
+_{-\sigma_y}
+\left( a + a^\dag \right) +
+\tag*{Lamb-Dicke effective coupling (sidebands)}\\
+&+ \mathcal{O}(\eta^2) \tag*{higher-order corrections/sidebands}
+\end{align*}
+Finally, one can write
+\begin{align}
+ H^{rot} &= -\hbar \Delta\ket{e}\bra{e} +
+\hbar\omega_Ta^\dag a +
+\frac{\hbar\Omega}{2}\sigma^x +
+\eta\frac{\hbar\Omega}{2}\sigma^y
+\left( a + a^\dag \right)
+\end{align}
+
+To understand the physics described by this Hamiltonian, let us start from the situation in which $\Omega = \omega_L =0 $: in this case only the bare spectrum of the atomic system survives. Instead, when the laser light is turned on, any generic level $\ket{g,n}$ couples to $\ket{e, n-1}, \ket{e,n}$ and $\ket{e, n+1}$, as shown in the following figure. 
+
+\begin{center}
+\input{img/dicke-general.tex}
+\includegraphics[height=4cm]{img/dicke-red-plot.png}
+\end{center}
+
+\subsubsection{Sideband coupling}
+
+There are three coupling sub-regimes, depending on the frequency to which the laser is tuned and the are represented in figure \ref{fig:sideband-coupling}.We analyze each case separately.
+\begin{figure}[H]
+    \centering
+    \input{img/sideband-copulings.tex}
+    \caption{The three sub-regimes of sideband coupling.}
+    \label{fig:sideband-coupling}
+\end{figure}
+
+
+\begin{enumerate}
+    \item[1)] \textbf{Carrier resonance} ($\Delta = 0$, or at least $\Delta \ll \omega_T$)\\
+    In this regime, the laser is resonant with the direct transition $\Delta \ll \omega_T$ (and weak $\eta\Omega \ll \omega_T$). In particular, there is no coupling between $\ket{g,n}$ and $\ket{e, n\pm 1}$, because by construction $|\omega_T \pm \Delta| \approx \omega_T \;\gg\; \eta\Omega$ . The Hamiltonian is approximately
+\begin{equation*}
+H_\text{carrier} = \hbar\omega_Ta^\dag a
+\;-\;
+\hbar\Delta\ket{e}\bra{e}
+\;+\;
+\frac{\hbar\Omega}{2}\sigma^x 
+\sim \begin{pmatrix}
+0&\Omega/2 \\
+\Omega/2&\omega_T
+\end{pmatrix}
+\end{equation*}
+having used the basis $\{\ket{g,n}, \ket{e, n+1}\}$ to write the matrix elements.
+
+\item[2)] \textbf{Red sideband} ($\Delta \simeq -\omega_T$, or at least $|\omega_L - (\omega_{eg}-\omega_T)| \ll \omega_T$) \\ 
+In this case, the laser is resonant with $\omega_{eg} -\omega_T$. We also require that $\Omega \ll \omega_T$.
+The denomination ``red" is due to the fact that laser is detuned to a lower frequency (hence more ``red") than carrier. In practice, we ignore the direct and the blue transition, considering only couples $\ket{g,n} \longleftrightarrow \ket{e, n-1}$, as shown in the following figure. 
+\begin{center}
+    \input{img/dicke-red.tex}
+\end{center}
+The Hamiltonian in this case is
+\begin{equation*}
+\Rightarrow H_{\text{red}} = \hbar\omega_Ta^\dag a
+-
+\hbar\Delta\ket{e}\bra{e}
++
+\eta\frac{\hbar\Omega}{2}
+\left(-i\sigma_+a+i\sigma_-a^\dag\right), 
+\end{equation*}
+which is the Jaynes-Cummings model (between phonon and level $e$). The difference with respect to the cavity is that the last contribution can be turned off, as the system is controlled by the laser.
+
+\item[3)] \textbf{Blue sideband} ($\Delta \simeq +\omega_T$, or at least $|\omega_L - (\omega_{eg}+\omega_T)| \ll \omega_T$) \\
+In this case, the laser is resonant with $\omega_{eg} +\omega_T$. We also require that $\Omega \ll \omega_T$. \\
+We can check the energy scales for typical optical systems:
+$$\underbrace{|\omega_L -(\omega_{eg}+\omega_T)|}_
+{\sim \text{kHz}}
+\ll
+\underbrace{\omega_T}_{\text{MHz}},$$
+The Hamiltonian in this regime is 
+\begin{equation*}
+\Rightarrow H_{\text{blue}} = \hbar\omega_Ta^\dag a
+-
+\hbar\Delta\ket{e}\bra{e}
++
+\frac{\eta\hbar\Omega}{2}
+\left(-i\sigma_+a^\dag+i\sigma_-a\right).
+\end{equation*}
+It is called ``anti"-Jaynes-Cummings model. 
+
+\begin{center}
+\input{img/dicke-blue.tex}
+\end{center}
+
+\end{enumerate}
+
+
+\begin{tcolorbox} [breakable, enhanced]
+\textbf{{Some observations about the effective Rabi frequency}} \\
+Frequencies mismatch is an issue when designing multi-qubit gates on ion traps: asynchrony requires perfect cooling (or any other workaround). Indeed, if one considers traps in the order of MHz, the temperatures must be really low: 1 MHz $\simeq 48\mu$K. \\
+The red sideband can be efficiently used to cool-down atom vibrations, as it reduces the effective number of phonon spontaneously (\textit{phonon drift}).
+\end{tcolorbox}
+
+
+\section{Two atoms in a linear trap}
+%\marginnote{This is actually a path towards ion-qubit\\ (trapped ion)\\ quantum computation.}
+
+\begin{center}
+    \input{img/sketch-trap-twoatoms.tex}
+\end{center}
+
+Consider the same trap used for the single ion (with a quadrupolar confining potential which effectively tights any atom to the $xy$ plane). If one puts two (identical) ions inside the trap, they crystallize due to their equal charge.
+The Hamiltonian that describes the system is 
+\begin{equation}
+\label{eq:atomsharmonic}
+H \;=\;
+\frac{(p_1^z)^2+(p_2^z)^2}{2m}
+\;+\;
+\underbrace{\frac{1}{2}m\omega_T^2(z_1^2+z_2^2)}
+_{\text{trap on }{z}}
+\;+\;
+\underbrace{\frac{e^2 Z_{\text{eff}}^2
+}{4\pi \varepsilon_0|z_1-z_2|}}
+_{\text{Coulomb repulsion}}
+\end{equation}
+In particular, $Z_{\text{eff}}=1$ for any single-ionised atom. \\ 
+There is no analytical exact solution to this problem. Nevertheless, one can solve a simpler classical problem, for instance under the hypothesis of small oscillations, and prove ``a posteriori" that the solution is consistent.
+
+The fist step is a translation of the coordinates about the \textit{classical equilibrium position}
+$\bar{z}_j$:
+\begin{equation*}
+\hat{z}_j \rightarrow \hat{z}_j' - \bar{z}_j\mathds{1}
+\end{equation*}
+Notice that $\bar{z}_j$ is just a number, not an operator, and that the commutation rules are preserved, i.e. $[z_i',p_j]=[z_i,p_j]+\bar{z}\cancel{[\mathbb{1},p_j]} = [z_i,p_j]$. \\
+Since the two atoms are crystallized, one can choose which atom has the greater $z_i$ coordinate and orient $\vec{z}$ such that 
+$$\bar{z}_1 > \bar{z}_2 \qquad \implies \qquad \frac{1}{|z_1-z_2|} \xrightarrow[]{z_1>z_2} \frac{1}{z_1-z_2} \;\;.$$
+
+Let us find $\bar{z}_1$ and $\bar{z}_2$.
+On the hypothesis of \textit{classical equilibrium}, for a generic coordinate $q_j$ it is
+\begin{align*}
+\dot{p}_j = 0\qquad \implies \qquad
+0 = -\dot{p}_j = \frac{\partial H}{\partial q_j}
+\end{align*}
+from which, in the $z_j$ coordinates,
+\begin{align}
+\label{eq:atomsmoments}
+\frac{\partial H}{\partial z_j} \bigg\rvert_{\bar{z}_j} = 0
+\;\;\Rightarrow\;\;
+\begin{cases}
+    m\omega_T^2\bar{z}_1 -\dfrac{e^2}{4\pi\varepsilon_0(\bar{z}_1-\bar{z}_2)^2} = 0\\
+    m\omega_T^2\bar{z}_2 + \dfrac{e^2}{4\pi\varepsilon_0(\bar{z}_1-\bar{z}_2)^2} = 0
+\end{cases}
+\end{align}
+Summing the equations, one gets easily that $\bar{z}_1=-\bar{z}_2$. Substituting back, the first equation reads
+\begin{equation}
+\label{eq:atomssymmetrycond}
+m\omega_T^2\bar{z}_1 = \frac{e^2}{4\pi\varepsilon_0}\frac{1}{4\bar{z}_1^2}
+\qquad \implies \qquad
+\bar{z}_1 = 
+\left( \frac{e^2}{16\pi\varepsilon_0m\omega_T^2} \right)^{1/3} = -\bar{z}_2
+\end{equation}
+Now we want to rewrite Eq. \ref{eq:atomsharmonic} in prime coordinates. The coordinates of the Coulombian term can be expanded for small oscillations as
+\begin{equation*}
+|\hat{z}_1-\hat{z}_2|^{-1} \equalexpl{$z_1>z_2$}
+(\hat{z}_1-\hat{z}_2)^{-1} \simeq
+\frac{\mathds{1}}{\hat{z}_1-\hat{z}_2}
+-\frac{\hat{z}_1'-\hat{z}_2'}{(\bar{z}_1-\bar{z}_2)^2}
++\frac{\cancel{2}}{\cancel{2}}\frac{(\hat{z}_1'-\hat{z}_2')^2}{(\bar{z}_1-\bar{z}_2)^3}
++{O}(\hat{z}_j^{\prime\;3})
+\end{equation*}
+whereas the trap term requires the square of the coordinates, which is
+\begin{equation*}
+\hat{z}_j = \hat{z}_j' + \bar{z}_j\mathds{1}
+\qquad\implies\qquad
+\hat{z}_j^2 = \hat{z}_j^{\prime\;2} +
+2\bar{z}_j\hat{z}_j^\prime +
+\bar{z}_j^2\mathds{1} \;\;.
+\end{equation*}
+Shifting away the constants, one ends up with the Hamiltonian 
+\begin{align}
+\begin{split}
+H_{\substack{\text{small} \\ \text{oscill.}}} = \; &
+\frac{(p_1^z)^2+(p_2^z)^2}{2m}
+\;+ \\
+& +\; \frac{m\omega_T^2}{2}
+    \left(
+        \cancel{\bar{z}_1^2\mathds{1}} + \cancel{\bar{z}_2^2\mathds{1}}
+        + 2 \bar{z}_1\hat{z}_1' + 2 \bar{z}_2\hat{z}_2'
+        + \hat{z}_1^{\prime\;2} + \hat{z}_2^{\prime\;2}
+    \right) \;+ \\
+& +\;
+\frac{e^2}{4\pi \varepsilon_0}
+\left(
+    \cancel{\frac{\mathds{1}}{ \hat{z}_1-\hat{z}_2 }}       - \frac{\hat{z}_1'-\hat{z}_2'}{(\hat{z}_1-\hat{z}_2)^2}
+        + \frac{(\hat{z}_1'-\hat{z}_2')^2}{(\hat{z}_1-\hat{z}_2)^3}
+\right)
++{O}(\hat{z}_j^{\prime\;3})
+\end{split}
+\end{align}
+Further simplifications can be done isolating the terms by their order:
+\begin{itemize}
+    \item at first order in the prime coordinates, because of Equations \ref{eq:atomsmoments}
+    \begin{equation*}
+    (I) \qquad \longrightarrow \qquad
+        \hat{z}_1' \underbrace{
+            \left(
+                m\omega_T^2\bar{z}_1 - \frac{e^2}{4\pi\varepsilon_0(4\bar{z}_1^2)} 
+            \right)
+        }_{=0} + \hat{z}_2' \underbrace{
+            \left(
+                m\omega_T^2\bar{z}_2 + \frac{e^2}{4\pi\varepsilon_0(4\bar{z}_2^2)} 
+            \right)
+        }_{=0} = 0
+    \end{equation*}
+    Not surprisingly... this quantity is null by construction.
+    
+    \item at second order
+    \begin{equation*}
+    (II) \qquad \longrightarrow \qquad
+    \frac{m\omega_T^2}{2}
+    \left( \hat{z}_1^{\prime\;2} + \hat{z}_2^{\prime\;2}  \right)
+    +
+    \left( \hat{z}_1^{\prime\;2} - \hat{z}_2^{\prime\;2} \right)
+    {\frac{e^2}{4\pi\varepsilon_0}(\bar{z}_1-\bar{z}_2)^{-3}}
+    \end{equation*}
+    where, because of Eq. \ref{eq:atomssymmetrycond},
+    \begin{equation*}
+    \frac{e^2}{4\pi\varepsilon_0}(\bar{z}_1-\bar{z}_2)^{-3} =
+    \frac{e^2}{4\pi\varepsilon_0}\frac{1}{8\bar{z}_1^3} =
+    \frac{e^2}{32\pi\varepsilon_0}
+    \left(
+        \frac{16\pi\varepsilon_0m\omega^2_T}{e^2}
+    \right) = \frac{1}{2}m\omega_T^2
+    \end{equation*}
+\end{itemize}
+Combining the simplifications,
+\begin{align}
+\label{eq:atoms-harmonic-coupled}
+H_{\substack{\text{small} \\ \text{oscill.}}} = 
+\frac{(p_1^z)^2+(p_2^z)^2}{2m}
++
+ \frac{m\omega_T^2}{2}
+    \left(
+        \hat{z}_1^{\prime\;2} + \hat{z}_2^{\prime\;2}
+        + \left( \hat{z}_1'-\hat{z}_1' \right)^2
+    \right)
+    + {O}\left( z_j^3 \right)
+\end{align}
+This Hamiltonian describes two coupled harmonic oscillators. One can define this new set of coordinates
+\begin{equation}
+\text{CoM}: \begin{dcases}
+Z=\frac{z_1'+z_2'}{2}\\P=p_1^z+p_2^z
+\end{dcases}
+\qquad \qquad 
+\text{Relative}: \begin{dcases}
+z=z_1-z_2\\p = \frac{p^z_1-p^z_2}{2}
+\end{dcases}
+\end{equation}
+which inverts as
+\begin{equation*}
+\label{eq:inverted-coords-coupled}
+p_{1,2}^z = \frac{P}{2}\pm p \qquad \qquad z'_{1,2} = Z\pm\frac{z}{2}
+\end{equation*}
+The terms of Equation \ref{eq:atoms-harmonic-coupled} can be written using the new coordinates
+\begin{equation*}
+(p_{1}^z)^2 + (p_{2}^z)^2 = \frac{P^2}{2} + 2p^2 \;,
+\qquad 
+(z'_1)^2 + (z'_2)^2 = 2Z^2 + \frac{z^2}{2} \;,
+\qquad \text{and} \qquad
+(z'_1 - z'_2)^2 = z^2.
+\end{equation*}
+These coordinates are really convenient, because the new Hamiltonian is the sum of two decoupled problems:
+\begin{equation}
+\label{eq:twoatoms-harmonic-modes}
+H_{\substack{\text{small} \\ \text{oscill.}}} = 
+\underbrace{\left[ \frac{P^2}{4m}+m\omega_T^2Z^2 \right]}
+_{\text{CoM harmonic oscillator}}
++ 
+\underbrace{\left[\frac{p^2}{m}+\frac{m\omega_T^2}{2}\left(\frac{3z^2}{2}\right)\right]}
+_{\text{Stretch mode harmonic oscillator}}
++ \;\;{O}\left( z_j^3 \right)
+\end{equation}
+
+
+% define the dotted arrows
+\def\bulletrightarrow{\hbox{$\bullet$}\kern-2pt\hbox{$\rightarrow$}}
+\def\bulletleftarrow{\hbox{$\leftarrow$}\kern-2pt\hbox{$\bullet$}}
+
+
+\noindent To solve this problem, one moves to the ladder operators formalism for each the two normal modes of the decoupled harmonic oscillators:
+\begin{itemize}
+
+    \item \textbf{CoM mode}
+    $\qquad \left( \substack{
+        \bulletrightarrow \; \; \bulletrightarrow \\ 
+        \bulletleftarrow  \; \; \bulletleftarrow } \right)$
+    \begin{align*}
+    \begin{dcases}
+        Z = \sqrt{\frac{\hbar}{4m\omega_T}}
+            \left(  a_{CoM} + a_{CoM}^\dag \right)\\
+        P = i\sqrt{\hbar m\omega_T}
+            \left(  a_{CoM}^\dag - a_{CoM} \right)
+    \end{dcases}
+    \;\;\Leftrightarrow\;\; a_{CoM} = \sqrt{\frac{m\omega_T}{\hbar}}\;Z+
+            i\sqrt{\frac{1}{4\hbar m\omega_T}}\;P
+    \end{align*}
+
+    \item \textbf{Stretch mode}
+    $\qquad \left( \substack{ 
+        \bulletrightarrow \; \; \bulletleftarrow \\
+        \bulletleftarrow  \; \; \bulletrightarrow } \right)$
+    \begin{align*}
+    \begin{dcases}
+        z = \sqrt{\frac{\hbar}{\sqrt{3}m\omega_T}}
+            \left(  a_{S} + a_{S}^\dag \right)\\
+        p = i\sqrt{\frac{\sqrt{3}\hbar m\omega_T}{4}}
+            \left(  a_{S}^\dag - a_{S} \right)
+    \end{dcases}
+    \;\;\Leftrightarrow \;\;
+    a_{S} = \sqrt{\frac{\sqrt{3}m\omega_T}{4\hbar}}\;z+
+            i\sqrt{\frac{1}{\sqrt{3}\hbar m\omega_T}}\;p
+    \end{align*}
+\end{itemize}
+This leads to an utterly simplified form of equation (\ref{eq:twoatoms-harmonic-modes}):
+\begin{align}
+\label{eq:twoatoms-ladder-harmonic-modes}
+H_{\substack{\text{small} \\ \text{oscill.}}} = \hbar\omega_T
+    \left( a_{CoM}^\dag a_{CoM} + \cancel{\frac{1}{2}} \right) +
+    \hbar\sqrt{3}\omega_T
+    \left( a_{S}^\dag a_{S} + \cancel{\frac{1}{2}} \right)
+    + \cancel{\mathcal{O}\left( \dots \right)},
+\end{align}
+where the constant terms have been removed. We also see that the stretch mode is $\sqrt{3} \simeq 1.73$ times faster than $CoM$ mode, that is, several MHz away.
+
+At the end of the day, one can recover the laboratory coordinates of the two atoms with $z_{1,2}=\pm\bar{z}_1+z'_{1,2} = \pm \bar{z}_1 + Z \pm \frac{z}{2}$,
+\begin{equation}
+\label{eq:lab-coords}
+z_{1,2} =
+    \pm\bar{z}
+    + \sqrt{\frac{\hbar}{4m\omega_T}}
+        \left( a_{CoM} + a_{CoM}^\dag \right)
+    \pm \sqrt{\frac{\hbar}{4\sqrt{3}m\omega_T}}
+        \left( a_S + a_S^\dag \right)
+\end{equation}
+and observe that their distance is orders of magnitude greater than the atom size. This means that the two atoms are sufficiently ``far away'', so one can suppose to be able to hit specifically one of them with a laser. Which is exactly what we will do!
+
+%\begin{figure}[h!]
+%\centering
+%    \includegraphics[width=0.3\linewidth]{img/sketch_far_atoms.png}
+%\end{figure}
+
+
+\subsection{Two trapped atoms under a focused laser}
+
+\marginnote{From now on, we will shorten $CoM$ with $C$.}
+Suppose to focus a laser, say, on ion 1 (of coordinate $z_1$). The Hamiltonian of such system would be composed by the one of equation (\ref{eq:twoatoms-ladder-harmonic-modes}), plus a dipole light-atom coupling term $H_{AL} = -\vec{d}\cdot\vec{E}(\vec{r})$:
+\begin{equation}
+H^{lab} = 
+\underbrace{
+\hbar \omega_Ta_{C}^\dag a_{C}
++
+\sqrt{3}\hbar\omega_Ta_S^\dag a_S
+}_{\ref{eq:twoatoms-ladder-harmonic-modes}}
++ \hbar\Omega\sum_j\ket{e}\bra{e}_j + H_{AL}
+\end{equation}
+where
+\begin{align*}
+H_{AL} &= -\hbar\Omega\ket{e}\bra{g}_1
+\cos\left(ckt-\cos\theta kz_1\right) + \text{h.c.}
+\end{align*}
+can be rewritten using equation (\ref{eq:lab-coords})
+\begin{align*}
+    H_{AL} = -\hbar\Omega\ket{e}\bra{g}_1 \cos
+\bigg(&
+    ckt -
+    \underbrace{\cos\theta k\bar{z}_1}_{\phi_0}
+    -\underbrace{\cos\theta k \sqrt{\frac{\hbar}{4m\omega_T}}}
+        _{\eta_{C}}
+    (a_{C}+a^\dag_{C}) + \\
+    &-\underbrace{\cos\theta k \sqrt{\frac{\hbar}{4\sqrt{3}m\omega_T}}}
+        _{\eta_{S}}
+    (a_{S}+a^\dag_{S})
+\bigg)
++ \text{h.c.}
+\end{align*}
+Consider the rotating-wave approximation 
+$$|\omega_{eg}-\omega_L|,\Omega \;\ll\; \omega_{eg},\omega_L$$
+and in the rotating frame, defined by the transformation
+$U(t) = e^{-i\omega_L t\sum_j\ket{e}\bra{e}_j + i \phi_0}$. The Hamiltonian becomes
+\begin{align*}
+\begin{split}
+H^{rot}_{RWA} =\; &
+\hbar \overbrace{\left(\omega_{eg}-\omega_{L}\right)}
+    ^{\equiv-\Delta}
+\sum_j \ket{e}\bra{e}_j 
++
+\hbar \omega_{T}a_{C}^\dag a_{C}
++
+\sqrt{3}\hbar\omega_Ta_S^\dag a_S
++\\
+& -\frac{\hbar\Omega}{2}\ket{e}\bra{g}_1
+e^{-i\eta_{C}(a+a^\dag)_{C}}
+e^{-i\eta_{S}(a+a^\dag)_{S}}
++ \text{h.c.}
+\end{split}
+\end{align*}
+Using the hypothesis that the $\eta$s are small parameters (Lamb-Dicke regime)
+\begin{align*}
+    e^{-i\eta_{C}(a+a^\dag)_{C}}
+    e^{-i\eta_{S}(a+a^\dag)_{S}}
+    = 1 
+    - i\eta_{C}(a_{C}+a_{C}^\dag) 
+    - i\eta_{S}(a_{S}+a_{S}^\dag) 
+    + \mathcal{O}(\eta^2) \;\;,
+\end{align*}
+the final result is
+\begin{align}
+\begin{split}
+H^{rot}_{RWA} =\; &
+-\hbar\Delta
+\sum_j \ket{e}\bra{e}_j 
++
+\hbar \omega_{T}a_{C}^\dag a_{C}
++
+\sqrt{3}\hbar\omega_Ta_S^\dag a_S
++\\
+& -\frac{\hbar\Omega}{2}\ket{e}\bra{g}_1
+\left(
+1 - i\eta_{C}(a_{C}+a_{C}^\dag)
+- i\eta_{S}(a_{S}+a_{S}^\dag)
++{O}(\eta^2)
+\right)
++ \text{h.c.}
+\end{split}
+\end{align}
+
+From an experimental point of view, it would be possible to tune the laser to a specific sideband of a specific mode. Consider, for instance, the red sideband of CoM mode reported in the following figure: 
+\begin{center}
+    \input{img/trapped-sketch-levs.tex}
+\end{center}
+
+The detuning is sufficiently large to make it possible and the stretch mode will not be excited. Indeed, if
+\begin{align*}
+\text{KHz} \approx |\Delta + \omega_T| \ll \omega_T \approx \text{MHz}
+\end{align*}
+but
+\begin{align*}
+|\Delta\pm\sqrt{3}\omega_T| & \approx | -\omega_T \pm \sqrt{3}\omega_T| \approx\\
+& \approx |\sqrt{3}\pm1|\omega_T  \;
+\underbrace{\;> 0.7 \cdot \omega_T \;\approx \text{MHz}}_{ \mathclap{\text{far detuned ($\Rightarrow$ no excitation of stretch mode)}} }
+\end{align*}
+
+\noindent The Hamiltonian would be a center-of-mass (axial) phonon Jaynes-Cummings model:
+\begin{align}
+\begin{split}
+H_{red} = & -\hbar(\omega_T +\varepsilon)
+    \ket{e}\bra{e}_1 
+    \;+\;
+    \hbar \omega_{T}a_{C}^\dag a_{C}
+    \;+ \\
+& +\frac{\hbar\eta_{C}\Omega}{2}
+\left( i\sigma_1^+a_{C} - i\sigma_1^-a_{C} \right)
+\;\; + \text{decoupled stuff}
+\end{split}
+\end{align}
+having defined $|\omega_L-\omega_{eg}+\omega_T| = \varepsilon \ll \omega_T$. 
+
+\vspace{1cm}
+\begin{tcolorbox}[breakable, enhanced]
+\textbf{Summary}\\
+
+Let us briefly recap the take-away message of this section. We have considered two atoms in a trap with two focused laser beams. We have found that the dynamics of the system is described by two modes.
+\begin{equation*}
+\text{construction}\;\; \left( \substack{
+        \bulletrightarrow \; \; \bulletrightarrow \\ 
+        \bulletleftarrow  \; \; \bulletleftarrow } \right)
+\qquad\qquad
+\text{destruction}\;\;
+\left( \substack{ 
+        \bulletrightarrow \; \; \bulletleftarrow \\
+        \bulletleftarrow  \; \; \bulletrightarrow } \right)
+\end{equation*}
+which create a phonon structure, like the one seen in previous paragraphs, but separable on each mode:
+\begin{center}
+    \input{img/trapped-sketch-levs.tex}
+\end{center}
+
+\end{tcolorbox}
+\vspace{1cm}
+
+
+
+
+\section{Example: Cirac-Zoller CNOT gate}
+
+We want to build a CNOT gate for two qubits. This step is fundamental to get a universal set of operations.\\
+
+\noindent \textbf{Ingredients}:
+\begin{itemize}
+    \item $2 \times$ 3-level $\{\ket{g}, \ket{e}, \ket{a}\}$ trapped ions (ex: $Ca^+$), where the auxiliary state $\ket{a}$ is not an allowed input.
+    \item $2 \times$ focused lasers $L1, L2$ which can be rapidly turned on/off.
+    \item $1 \times$ harmonic ion trap.
+\end{itemize}
+\begin{center}
+    \input{img/cirac-zoller-example.tex}
+\end{center}
+
+We have seen previously that we need a very good cooling strategy too, since we need $CoM$ phonons at $T\sim0$.
+
+\textbf{Remark}: When a laser is perfectly resonant to a transition, I can go to an interaction picture via a suitable frame change $\tilde{U}$ on the hamiltonian $H$. If
+\begin{equation*}
+H = \begin{pmatrix}
+    \ddots\\
+    & \varepsilon_1\\
+    &&\varepsilon_2&\Omega\\
+    &&\Omega& \varepsilon_2\\
+    &&&&\varepsilon_3\\
+    &&&&&\ddots\\
+\end{pmatrix},
+\;\;
+\tilde{U} = \begin{pmatrix}
+    \ddots\\
+    & e^{i\varepsilon_1t}\\
+    && e^{i\varepsilon_2t}\\
+    &&& e^{i\varepsilon_2t}\\
+    &&&& e^{i\varepsilon_3t}\\
+    &&&&&\ddots\\
+\end{pmatrix}
+\end{equation*}
+we obtain in the interaction picture as $H_{int} = \tilde{U}H\tilde{U} + i\hbar \dot{\tilde{U}}\tilde{U}^\dag$, i.e.
+\begin{equation*}
+H_{int} = \begin{pmatrix}
+    0\\
+    & 0\\
+    && 0 & \Omega\\
+    && \Omega & 0\\
+    &&&& 0\\
+    &&&&&0\\
+\end{pmatrix}
+\end{equation*}
+$\Rightarrow$ it is convenient to go to the interaction picture in order to perform calculations, as the bare hamiltonian goes away.
+
+
+
+
+\subsection{Protocol}
+
+The lasers are tuned in the following way:
+\begin{itemize}
+    \item Laser 1 ($L1$) is focused on ion 1, in resonance to $\ket{g}_1 \leftrightarrow \ket{e}_1$ through a red-sideband transition\\
+    $$H_{L1} = \frac{\hbar\eta_C\Omega_1(t)}{2}
+    \left( i\ket{e}\bra{g}_1 a_C + h.c. \right)$$
+    $$\omega_{L1} \approx \omega_{eg} -\omega_T$$
+    \item Laser 2 ($L2$) is focused on ion 2, in resonance to $\ket{g}_2 \leftrightarrow \ket{a}_2$ through a red-sideband transition\\
+    $$H_{L2} = \frac{\hbar\eta_C\Omega_2(t)}{2}
+    \left( i\ket{a}\bra{g}_2a_C + h.c. \right)$$
+    $$\omega_{L2} \approx \omega_{ag} -\omega_T$$
+\end{itemize}
+
+
+
+
+\noindent In principle the lasers may show some transient when turned on/off. For this protocol one can take the frequency evolution to be similar to a square function (the laser turns on/off immediately). The protocol consists of the following steps:
+
+\begin{itemize}
+
+% STEP 1
+\item \textbf{Step 1} - Laser 2 off, Laser 1 on for $t_1 = \frac{\pi}{\eta_C\Omega_1}$. We call this a $\pi$-PULSE. 
+    The unitary operator associated to this operation is
+    \begin{align*}
+    U_1 &= \exp{ -i\frac{\pi}{\eta_C\Omega_1} \frac{1}{\hbar} H_1 }\\% -i or -1 ??? TODO
+    & = \exp{ \frac{ -i \pi}{2}
+        \left( i \ket{e}\bra{g}_1a_C - i \ket{g}\bra{e}_1a^\dag_C \right)
+    }
+    \end{align*}
+    and it acts basically as $\sigma_y$ on the states $\ket{g_1, 1}$ and $\ket{e_1, 0}$. 
+    Indeed, because of
+    $e^{i\alpha\sigma_k} = \cos\alpha \mathds{1} + i \sin\alpha \sigma_k$,
+    it is $e^{-i\pi\sigma_y/2} = -i \sigma_y$.
+    
+    In general, the result of the operation is
+    \begin{align*}
+        \ket{g_1,0} & \overset{U_1}{\longrightarrow} \;\;\; \ket{g_1, 0}\\
+        \ket{e_1, 0} & \longrightarrow
+            \;\;\; i\left(\ket{e}\bra{g}_1a - \ket{g}\bra{e}_1a^\dag\right)\ket{e_1, 0} = -i \ket{g_1, 1} 
+    \end{align*}
+    which is graphically represented as
+    \begin{center}
+    \input{img/cirac-zoller-step1.tex}
+    \end{center}
+
+\item \textbf{Step 2} - Laser 1 off, Laser 2 on for $t_2 = \frac{2\pi}{\eta_C\Omega_2}$. We call this a $2\pi$-PULSE.
+    The unitary transformation is
+    \begin{align*}
+    \Rightarrow U_2 &= \exp{ -\frac{i}{\hbar}\frac{2\pi}{\eta_C\Omega_2} H_2 }\\
+    & = \exp{ -i\pi \left(
+        i\ket{a}\bra{g}_2a_C - 
+        i\ket{g}\bra{a}_2a_C^\dag
+    \right)
+    }
+    \end{align*}
+    
+    The expression acts like $-\mathds{1}$ on the states $\ket{g_2,1}, \ket{a_2, 0}$. Given the possible starting states
+    \begin{align*}
+        \ket{g_2,0} & \overset{U_2}{\longrightarrow} \;\;\; \ket{g_2, 0}\\
+        \ket{e_2, 0} & \longrightarrow \;\;\; \ket{e_2, 0}\\
+        \ket{g_2, 1} & \longrightarrow - \ket{g_2, 1}
+    \end{align*}
+    
+    \begin{center}
+    \input{img/cirac-zoller-step2.tex}
+    \end{center}
+
+
+\item \textbf{Step 3} - Identical to \textit{Step 1}.
+    $$\Rightarrow U_3 = U_1$$
+    In particular, $U_3\;i\ket{g_1, 1} = + \ket{e_1,0}$.
+\end{itemize}
+
+
+\noindent \textbf{Table of canonical states} - If we consider all the 4 possible inputs, then
+\begin{align*}
+    \text{Inputs:}\;\;&
+    \begin{cases}
+        \ket{ g_1, g_2, 0} \\[1pt]
+        \ket{ g_1, e_2, 0} \\[1pt]
+        \ket{ e_1, g_2, 0} \\[1pt]
+        \ket{ e_1, e_2, 0}
+    \end{cases}
+    \;\; \xrightarrow[L1\;\;\pi]{U_1} \;\;
+    \begin{aligned}
+        \ket{ g_1, g_2, 0} \\[1pt]
+        \ket{ g_1, e_2, 0} \\[1pt]
+        - i\ket{ g_1, g_2, 1} \\[1pt]
+        - i\ket{ g_1, e_2, 1}
+    \end{aligned}
+    \;\; \xrightarrow[L2\;\;2\pi]{U_2} \\
+    & \xrightarrow{U_2} \;\;
+    \begin{aligned}
+        \ket{ g_1, g_2, 0} \\[1pt]
+        \ket{ g_1, e_2, 0} \\[1pt]
+        + i\ket{ g_1, g_2, 1} \\[1pt]
+        - i\ket{ g_1, e_2, 1}
+    \end{aligned}
+    \;\; \xrightarrow[L1\;\;\pi]{U_3=U_1} \qquad
+    \text{Outputs:}
+    \begin{cases}
+        \ket{ g_1, g_2, 0} \\[1pt]
+        \ket{ g_1, e_2, 0} \\[1pt]
+        \ket{ e_1, g_2, 0} \\[1pt]
+        - \ket{ e_1, e_2, 0}
+    \end{cases}
+\end{align*}
+
+This operation goes from states with zero phonons to other states with zero phonons, but with a switched sign in the fourth input state. Therefore, the protocol acts as a \textbf{control-flip} gate on the second ion (qubit):
+\begin{equation*}
+    G_{CZ} = U_1 U_2 U_1 = \begin{pmatrix}
+        1\\
+        &1\\
+        &&1\\
+        &&&-1
+    \end{pmatrix}
+    = \begin{quantikz}
+        & \ctrl{1} &\qw \\
+        & \gate{Z} &\qw \\
+    \end{quantikz}
+\end{equation*}
+from which one can build the CNOT gate as
+\begin{center}
+$CNOT =\;$
+\begin{quantikz}
+    & \ctrl{1} &\qw \\
+    & \targ{} &\qw \\
+\end{quantikz}
+$\;\;=\;\;$
+\begin{quantikz}
+    &\qw      & \ctrl{1} & \qw     &\qw \\
+    &\gate{H} & \gate{Z} & \gate{H} &\qw \\
+\end{quantikz}
+\end{center}
+
+\noindent Being able to create such gate is a fundamental requirement to perform universal quantum computing operations.\\
+
+\noindent \textbf{Note}: The most strict requirement of this protocol is to approach the limit $T=0$ (zero temperature phonon $\sim \mu K$). Some year after Cirac-Zoller\footnote{\href{https://doi.org/10.1103/PhysRevLett.74.4091}{Phys. Rev. Lett. 74, 4091 (1995)} - This is generalized for $N$ ions.} design of a CNOT gate, Klaus Mølmer and Anders Sørensen proposed a solution\footnote{\href{https://doi.org/10.1103/PhysRevLett.82.1971}{Phys. Rev. Lett. 82, 1971 (1999)}} which addressed the strict requirement of the temperature.

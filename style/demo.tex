@@ -1,0 +1,130 @@
+% this dummy chapter requires lipsum
+
+\chapter{Feature demo}
+
+In this dummy chapter we will see some features of this document.
+
+
+\section{Side annotations}
+\lecture{1, 01/01/2022}
+
+\lipsum[1]\marginnote{Notes can be written besides the text with \texttt{\textbackslash marginnote} command.}
+
+\lipsum[2]\marginbox{This is another fancy way of creating a side annotation. Use \texttt{\textbackslash marginbox}.}
+
+\lipsum[3]\marginboxRed{There are more colors to be used. Red, ...}
+
+\lipsum[4]\marginboxCyan{... a lighter blue, ...}
+
+\lipsum[5]\marginboxYellow{...and a very nice yellow.}
+
+\lipsum[6]\\
+The boxes can be places inside a text using the \texttt{inline} option. For instance, \marginboxCyan[inline]{this is a margin box, even though it is not placed in a margin...}
+\lipsum[7]
+
+
+
+Finally, you can 
+\marginboxhl{highlight a piece of text}{IDK what to write here, lmao.}
+and put a box next to it with \texttt{\textbackslash marginboxhl}.
+\lipsum[8]
+
+\marginbold{Margin bold}
+\lipsum[9]
+
+\margintt{Margin typewriter}
+\lipsum[10]
+
+\marginsf{Margin sf}
+\lipsum[11]
+
+
+\subsection{TODO annotations}
+
+The \texttt{todo} annotations are placed in the margin and are meant to be removed when the document is finished. \textbf{All the todos are listed in the final page of this document}.
+
+\lipsum[10]
+\todowarning{Here's a TODO warning in the margin.}
+
+\lipsum[11]
+\todocritical{You can mark critical todos as well}
+
+\lipsum[12]
+\todoblue{and a blue}
+\lipsum[13]
+
+You can 
+\todohl{highlight some specific text}{This should be revised later.} and put a note besides it.
+\lipsum[14]
+\todogreen{ohoh, we have also green here}
+
+
+
+
+\section{Images}
+
+You can add some missing figure placeholder using the \texttt{missingfigure} command.
+
+\missingfigure[figwidth=6cm]{Testing a missing figure}
+
+\lipsum[20]
+
+\begin{figure}
+\missingfigure{Testing another missing figure}
+\caption{Hello there! This is a figure...}
+\end{figure}
+
+\lipsum[21]
+
+
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\missingfigure[figwidth=6cm]{Add an image \ldots}
+\caption{Hello there!}
+\end{wrapfigure}
+Figures can be wrapped along a text in a \texttt{wrapfigure} environment. Look at \href{https://it.overleaf.com/learn/latex/Wrapping_text_around_figures}{this link} for more instructions.
+\lipsum[31]
+
+\marginpar{
+\missingfigure[figwidth=0.95\marginparwidth]{}
+\captionof{figure}{Figures can be placed in the margin too.}
+}
+\lipsum[32-33]
+
+
+
+\section{Boxes}
+
+The \texttt{tcolorbox} class allows the use of boxes. This template provides an automatic preset in \texttt{enbox} environment.
+
+\begin{enbox}{Title of enbox}
+\lipsum[30]
+\end{enbox}
+
+
+
+
+\section{Others}
+
+\lipsum[40]
+
+Package \texttt{booktabs} allows the creation of nicer tables.
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Table using booktabs.}
+    \label{tab:table1}
+    \begin{tabular}{l|c|r}
+      \toprule % <-- Toprule here
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      $\alpha$ & $\beta$ & $\gamma$ \\
+      \midrule % <-- Midrule here
+      1 & 1110.1 & a\\
+      2 & 10.1 & b\\
+      3 & 23.113231 & c\\
+      \bottomrule % <-- Bottomrule here
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\lipsum[41]

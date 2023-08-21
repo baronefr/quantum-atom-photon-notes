@@ -1,0 +1,165 @@
+\documentclass[a4paper, twoside, openright]{memoir}
+%      ^^ set here if oneside/twoside
+
+\usepackage[english]{babel}
+
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+
+
+\usepackage[
+    top=3cm, bottom=3cm,
+    textwidth=13cm,
+    bindingoffset=0cm,includemp,
+    inner=2.5cm,  % only if twosided
+    %% configure margin notes
+    marginparsep=7mm, marginparwidth=3.5cm,
+    marginparsep=5mm,
+    %% reverse side of marginpar
+    %reversemp,   
+    ]{geometry}
+
+% load everything else from class mymemoir
+\input{style/mymemoir.tex}
+
+
+
+% optional dependencies ----------
+\usetikzlibrary{quantikz}
+\usepackage{wasysym}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{makecell}
+\usepackage{blindtext}
+\usepackage{arydshln}
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+\usepackage{subfig}
+\usepackage{lipsum}
+\usepackage{mathalpha}
+\usepackage{bbold}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+%\setlength{\parindent}{0pt}
+\definecolor{coverline}{RGB}{205,0,20}
+
+% --------------------------------
+%             metadata
+% --------------------------------
+
+% version of the document
+\def\docuver{DEV-117-rev3-handout-github}
+
+\def\prependtitle{\LARGE{Notes of}}
+
+\title{Quantum information with atoms and photons}
+
+\def\appendtitle{ \vspace{3.0cm}
+    \LARGE{Prof. Pietro Silvi\\
+           Prof. Marco Di Liberto}
+}
+
+\def\coverfoot{Department of Physics and Astronomy, University of Padua}
+
+\author{Ilaria Delbono\thanks{ilaria.delbono@studenti.unipd.it},
+    Anna Garbo\thanks{anna.garbo.2@studenti.unipd.it},
+    Giacomo Di Prima\thanks{giacomo.diprima@studenti.unipd.it},
+    Davide Bacilieri\thanks{davide.bacilieri@studenti.unipd.it},
+    Lorenzo Barbiero\thanks{lorenzo.barbiero.1@studenti.unipd.it},
+    Francesco Pio Barone\thanks{francescopio.barone@studenti.unipd.it},
+    Giosuè Sardo Infirri\thanks{giosue.sardoinfirri@studenti.unipd.it}
+    and Lorenzo Valentini\thanks{lorenzo.valentini.2@studenti.unipd.it}
+}
+
+
+\date{Academic Year 2022/2023}
+
+\def\coverlogo{style/unipd_logo_red.png}
+
+\def\copyrightmention{
+\textbf{Document content Copyright} 2022-\the\year\ to all the students mentioned in first page and hereby reported:
+\authorlist.\\
+
+To fix errors or to improve this document, contact Ilaria Delbono or Francesco Pio Barone.
+}
+
+\def\copyrightnotes{
+The information included in this document has been verified at the best of the authors' knowledge. No responsibility will be attributed to the authors involved in their creation, publication and distribution. The Professors have not directly checked the content of this document, errors might be present!
+
+Credits of this material belongs to the Professors and their \href{https://en.didattica.unipd.it/off/2022/LM/SC/SC2443/000ZZ/SCQ2101439/N0}{lectures of \textit{Quantum information with atoms and photons}}. This material is intended to be used by students and it is publicly shared under CC license.
+}
+
+
+% --------------------------------
+%            document
+% --------------------------------
+\begin{document}
+
+\pagenumbering{roman} % start roman numbering
+\newgeometry{margin=3cm}
+\firstpage
+\secondpage
+\restoregeometry
+
+\fancyfoot[C]{\thepage}
+\fancyfoot[L]{}
+\fancyfoot[R]{}
+
+
+\cleardoublepage
+\begingroup
+\hypersetup{hidelinks}
+\tableofcontents
+\endgroup
+\newpage
+
+
+\pagenumbering{arabic} % switch to normal numeration
+\setlayout % fix layout for text
+
+
+% ---------------------
+%         body
+% ---------------------
+
+% demo of template features (uses lipsum)
+%\input{style/demo.tex}
+
+
+\chapter{Quantum Mechanics and time-dependent Hamiltonians}
+\input{ch1}
+
+\chapter{Open quantum systems}
+\input{ch2}
+
+\chapter{Quantization of light}
+\input{ch3}
+
+\chapter{Hydrogen-like atoms}
+\input{ch4}
+\input{ch5_addendum}
+
+\chapter{Two-level and three-level single-atom systems}
+\input{ch5}
+
+\chapter{Multi-atom systems}
+\input{ch6}
+
+\chapter[Quantum Simulation]{Correlated atomic systems and Quantum Simulation}
+\input{ch7}
+
+\begin{appendix}    
+    \chapter{Useful properties for calculations}
+    \input{appendixA}
+\end{appendix} 
+
+% ---------------------
+%         end
+% ---------------------
+
+%\listoftodos % just for development
+
+\end{document}
