@@ -6,8 +6,7 @@ All credits for this valuable resource go to the Professors. However, this mater
 
 Download the **final document** [here](QIAP-notes.pdf).
 
-<div style="background-color:orange;color:black;text-align:center;width:80px;"><b>TODO</b></div>
-
+<span style="color:blue">some *blue* text</span>.
 
 **Contributing students**: Ilaria Delbono, Anna Garbo, Giacomo Di Prima, Davide Bacilieri, Lorenzo Barbiero, Francesco Pio Barone, Giosuè Sardo Infirri and Lorenzo Valentini.
 
