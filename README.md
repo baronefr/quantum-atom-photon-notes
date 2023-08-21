@@ -6,10 +6,15 @@ All credits for this valuable resource go to the Professors. However, this mater
 
 Download the **final document** [here](QIAP-notes.pdf).
 
-<span style="color:blue">some *blue* text</span>.
-
 **Contributing students**: Ilaria Delbono, Anna Garbo, Giacomo Di Prima, Davide Bacilieri, Lorenzo Barbiero, Francesco Pio Barone, Giosuè Sardo Infirri and Lorenzo Valentini.
 
+***
 
+<h5 align="center">Quantum Information with Atoms and Photons<br>AY 2022/2023 - University of Padua</h5>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/baronefr/baronefr/main/shared/2022_unipd.png" alt="" height="70"/>
+  &emsp;
+  <img src="https://raw.githubusercontent.com/baronefr/baronefr/main/shared/2022_pod.png" alt="" height="70"/>
+</p>
 
